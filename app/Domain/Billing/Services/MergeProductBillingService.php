@@ -2,14 +2,18 @@
 
 namespace App\Domain\Billing\Services;
 
+use App\Domain\Product\Entities\Product;
+
 class MergeProductBillingService {
     
-    public function handle($produk, $jumlah) {
-        $merged = [];
-        for ($i=0; $i<count($produk); $i++){
+    public function handle($product_id, $quantity) {
+        $product = Product::find($product_id);
+
+        foreach($product as $index => $p){
             $merged[] = [
-                'id_produk' => $produk[$i],
-                'jumlah' => $jumlah[$i],
+                'product_id' => $product_id[$index],
+                'product_name' => $p->product_name,
+                'quantity' => $quantity[$index],
             ];
         }
 

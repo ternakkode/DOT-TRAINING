@@ -13,7 +13,7 @@ class BillingException extends Exception
     }
 
     public function report(){
-
+        \Log::debug('Failed to validate data, errors: '.$this->data->errors());
     }
 
     public function render($request){

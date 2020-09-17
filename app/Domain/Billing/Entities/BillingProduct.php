@@ -4,7 +4,7 @@ namespace App\Domain\Billing\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BillingProduk extends Model
+class BillingProduct extends Model
 {
     
     /**
@@ -12,17 +12,17 @@ class BillingProduk extends Model
      *
      * @var string
      */
-    protected $table = 'billing_produk';
+    protected $table = 'billing_product';
 
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['product_name'];
 
-    public function post()
+    public function Billing()
     {
-        return $this->belongsTo('App\Domain\Entities\BillingProduk');
+        return $this->belongsTo('App\Domain\Entities\Billing');
     }
 }

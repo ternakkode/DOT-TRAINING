@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBillingProdukTable extends Migration
+class CreateBillingProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateBillingProdukTable extends Migration
      */
     public function up()
     {
-        Schema::create('billing_produk', function (Blueprint $table) {
+        Schema::create('billing_product', function (Blueprint $table) {
             $table->id();
-            $table->string('no_billing', 100);
-            $table->integer('id_produk');
-            $table->integer('jumlah');
+            $table->string('billing_number', 100);
+            $table->integer('product_id');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateBillingProdukTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('billing_produk');
+        Schema::dropIfExists('billing_product');
     }
 }

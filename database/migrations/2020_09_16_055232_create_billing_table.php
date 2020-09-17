@@ -15,9 +15,11 @@ class CreateBillingTable extends Migration
     {
         Schema::create('billing', function (Blueprint $table) {
             $table->id();
-            $table->string('no_billing', 100);
-            $table->float('total_harga', 10, 2);
-            $table->float('diskon', 10, 2);
+            $table->string('billing_number', 100);
+            $table->string('email', 100);
+            $table->float('total_price', 10, 2);
+            $table->float('discount', 10, 2);
+            $table->enum('status', ['PENDING', 'PAID', 'CANCELED', 'EXPIRED']);
             $table->timestamp('due_date');
             $table->timestamps();
         });

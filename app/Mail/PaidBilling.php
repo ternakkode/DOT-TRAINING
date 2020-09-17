@@ -7,10 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewBilling extends Mailable
+class PaidBilling extends Mailable
 {
     use Queueable, SerializesModels;
-
     protected $data;
 
     /**
@@ -31,12 +30,13 @@ class NewBilling extends Mailable
     public function build()
     {
         $from       = 'admin@seorang.engineer';
-        $subject    = 'Transaksi Baru #'.$this->data['billing_number'];
-        $file       = 'email/billing/baru';
+        $subject    = 'Pembayaran Transaksi Berhasil #'.$this->data->billing_id;
+        $file       = 'email/billing/paid';
 
         return $this->from($from)
                     ->subject($subject)
                     ->view($file)
-                    ->with($this->data);
+                    ->with($this->data)
+                    ->attach();
     }
 }

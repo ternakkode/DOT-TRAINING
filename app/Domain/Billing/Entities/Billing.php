@@ -15,6 +15,6 @@ class Billing extends Model
 
     public function produk()
     {
-        return $this->hasMany('App\Domain\Billing\Entities\BillingProduk', 'no_billing', 'no_billing');
+        return $this->hasMany('App\Domain\Billing\Entities\BillingProduct', 'billing_number', 'billing_number');
     }
 }

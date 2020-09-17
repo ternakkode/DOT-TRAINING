@@ -4,7 +4,6 @@ namespace App\Http\Requests\API\V1\Billing;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
-// use App\Exception\BillingException;
 
 class StoreBilling extends FormRequest
 {
@@ -17,12 +16,13 @@ class StoreBilling extends FormRequest
     public function rules()
     {
         return [
-            'total_harga'   => 'required|numeric|min:0',
-            'produk.*'      => 'required|integer|exists:produk,id',
-            'jumlah.*'      => 'required|integer|min:0',
-            'diskon'        => 'required|numeric|min:0',
-            'due_date'      => 'required|date_format:Y/m/d H:i:s',
             'email'         => 'required|email',
+            'product.*'     => 'required|integer|exists:product,id',
+            'total_price'   => 'required|numeric|min:0',
+            'quantity.*'    => 'required|integer|min:0',
+            'discount'      => 'required|numeric|min:0',
+            'due_date'      => 'required|date_format:Y/m/d H:i:s',
+            
         ];
     }
 
