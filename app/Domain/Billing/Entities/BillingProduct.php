@@ -21,8 +21,8 @@ class BillingProduct extends Model
      */
     protected $guarded = ['product_name'];
 
-    public function Billing()
+    public function billing()
     {
-        return $this->belongsTo('App\Domain\Entities\Billing');
+        return $this->belongsTo('App\Domain\Entities\Billing', 'billing_number', 'billing_number');
     }
 }

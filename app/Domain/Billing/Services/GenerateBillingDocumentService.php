@@ -5,12 +5,12 @@ use PDF;
 
 class GenerateBillingDocumentService {
     
-    public function handle($no_billing) {
-        $fileName = 'Invoice #'.$no_billing. '.' . 'pdf' ;
+    public function handle($data) {
+        $fileName = '#'.$data['billing_number']. '.' . 'pdf' ;
         $path = public_path('document/invoice');
         $url = $path . '/' . $fileName;
 
-        $pdf = PDF::loadview('email/billing/paid',['data' => $data]);
+        $pdf = PDF::loadview('pdf/billing/paid',['data' => $data]);
         $pdf->save($url);
 
         return $url;

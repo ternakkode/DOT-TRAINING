@@ -27,13 +27,18 @@ class BillingRepository{
         $this->model->save();
     }
 
-    public function updateStatus($status){
+    public function setStatus($status){
         $this->model->status = $status;
         $this->model->save();
     }
 
-    public function storeProduct($data){
-        $this->model->produk()->createMany($data);
+    public function getStatus(){
+        return $this->model->status;
     }
+
+    public function storeProduct($data){
+        $this->model->product()->createMany($data);
+    }
+
 
 }

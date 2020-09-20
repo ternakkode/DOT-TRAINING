@@ -6,7 +6,7 @@ use App\Mail\PaidBilling;
 
 class SendEmailPaidBillingService {
     
-    public function handle($billing_id, $data) {
-        Mail::to($data->email)->send(new PaidBilling($data));
+    public function handle($data, $document) {
+        Mail::to($data['email'])->send(new PaidBilling($data, $document));
     }
 }

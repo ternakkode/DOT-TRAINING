@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('billing')->group(function () {
-    Route::post('generate', 'API\BillingController@generate');
-    Route::get('pay', 'API\BillingController@pay');
-    Route::get('cancel', 'API\BillingController@cancel');
+    Route::post('generate', 'API\BillingController@generate')->name('generate-billing');
+    Route::get('pay', 'API\BillingController@pay')->name('pay-billing');
+    Route::get('cancel', 'API\BillingController@cancel')->name('cancel-billing');
 });

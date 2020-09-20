@@ -6,7 +6,11 @@ use App\Domain\Billing\Repositories\BillingRepository;
 use App\Domain\Billing\Services\GenerateBillingNumberService;
 use App\Domain\Billing\Services\MergeProductBillingService;
 use App\Domain\Billing\Services\GenerateBillingDocumentService;
+use App\Domain\Billing\Services\SendEmailPaidBillingService;
+use App\Domain\Billing\Entities\Billing;
 use App\Jobs\SendNewBillingMail;
+use App\Jobs\SendPaidBillingMail;
+use Exception;
 
 class ProcessBillingApplication
 {
@@ -19,21 +23,28 @@ class ProcessBillingApplication
         BillingRepository $billingRepository,
         GenerateBillingNumberService $genereteBillingNumberService,
         MergeProductBillingService $mergeProductBillingService,
-        GenerateBillingDocumentService $generateBillingDocumentService
+        GenerateBillingDocumentService $generateBillingDocumentService,
+        SendEmailPaidBillingService $sendEmailPaidBillingService
     ) {
         $this->billingRepository = $billingRepository;
         $this->genereteBillingNumberService = $genereteBillingNumberService;
         $this->mergeProductBillingService = $mergeProductBillingService;
         $this->generateBillingDocumentService = $generateBillingDocumentService;
+        $this->sendEmailPaidBillingService = $sendEmailPaidBillingService;
     }
 
     public function generate(
-        $email, $product, $quantity, $total_price, $discount, $due_date
-    ){
+        $email,
+        $product,
+        $quantity,
+        $total_price,
+        $discount,
+        $due_date
+    ) {
         // generate nomor id billing
         $billing_number = $this->genereteBillingNumberService->handle();
 
-        // merge product 
+        // merge product
         $product = $this->mergeProductBillingService->handle($product, $quantity);
 
         // kirim email ke user
@@ -45,7 +56,7 @@ class ProcessBillingApplication
             'discount'          => $discount,
             'total_price'       => $total_price,
             'due_date'          => $due_date
-        ])->delay(now()->addMinutes(1));
+        ]);
 
         // simpan data billing
         $this->billingRepository->store(
@@ -60,16 +71,22 @@ class ProcessBillingApplication
         $this->billingRepository->storeProduct($product);
     }
 
-    public function pay($no_billing){
-        $this->billingRepository = new BillingRepository(Billing::find($no_billing));
-        $this->billingRepository->updateStatus('PAID');
+    public function pay($billing_number)
+    {
+        $this->billingRepository = new BillingRepository(Billing::with('product')->find($billing_number));
+        
+        if($this->billingRepository->getStatus() != "PENDING") throw (new Exception('Artikel tidak ditemukan'));
 
-        $document = $this->generateBillingDocumentService($no_billing, $this->billingRepository);
-        $this->sendEmailPaidBillingService->handle();
+        $this->billingRepository->setStatus('PAID');
+
+        SendPaidBillingMail::dispatch($this->billingRepository->model->toArray());
     }
 
-    public function cancel($no_billing){
+    public function cancel($no_billing)
+    {
         $this->billingRepository = new billingRepository(Billing::find($no_billing));
-        $this->billingRepository->updateStatus('CANCELED');
+        if($this->billingRepository->getStatus() != "PENDING") throw (new Exception('Artikel tidak ditemukan'));
+
+        $this->billingRepository->setStatus('CANCELED');
     }
 }

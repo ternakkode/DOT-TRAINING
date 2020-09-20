@@ -19,7 +19,7 @@ class CreateBillingTable extends Migration
             $table->string('email', 100);
             $table->float('total_price', 10, 2);
             $table->float('discount', 10, 2);
-            $table->enum('status', ['PENDING', 'PAID', 'CANCELED', 'EXPIRED']);
+            $table->enum('status', ['PENDING', 'PAID', 'CANCELED', 'FOLLOW UP']);
             $table->timestamp('due_date');
             $table->timestamps();
         });

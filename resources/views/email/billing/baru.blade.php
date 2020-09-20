@@ -497,7 +497,7 @@
                                                 role="presentation">
                                                 <tr>
                                                     <td>
-                                                        <h3>{{ $billing_number }}</h3>
+                                                        <h3>#{{ $billing_number }}</h3>
                                                     </td>
                                                     <td>
                                                         <h3 class="align-right">2020/27/07 11:11:11</h3>

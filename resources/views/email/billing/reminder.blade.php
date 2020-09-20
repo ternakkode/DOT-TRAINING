@@ -488,13 +488,14 @@
                                     <td class="content-cell">
                                         <div class="f-fallback">
                                             <h1>Halo Pelanggan,</h1>
-                                            <p>Mengingatkan kembali agar segera membayar transaksi kamu sehingga tidak dibatalkan otomatis pada <span
-                                                    style="font-weight: bolder;">2020-10-10 12:12:12 WIB</span></p>
+                                            <p>Mengingatkan lagi agar segera menyelesaikan pembayaran supaya order tidak dibatalkan sebelum <span
+                                                    style="font-weight: bolder;">{{ $due_date }} WIB</span> Agar
+                                                order anda tidak dibatalkan otomatis</p>
                                             <table class="purchase" width="100%" cellpadding="0" cellspacing="0"
                                                 role="presentation">
                                                 <tr>
                                                     <td>
-                                                        <h3>#20202707111111001</h3>
+                                                        <h3>#{{ $billing_number }}</h3>
                                                     </td>
                                                     <td>
                                                         <h3 class="align-right">2020/27/07 11:11:11</h3>
@@ -504,38 +505,51 @@
                                                     <td colspan="2">
                                                         <table class="purchase_content" width="100%" cellpadding="0"
                                                             cellspacing="0">
+                                                            @foreach($product as $p)
                                                             <tr>
                                                                 <th class="purchase_heading" align="left">
-                                                                    <p class="f-fallback">Nama Barang</p>
+                                                                    <p class="f-fallback">{{ $p['product_id'] }}</p>
                                                                 </th>
                                                                 <th class="purchase_heading" align="right">
-                                                                    <p class="f-fallback">Jumlah</p>
+                                                                    <p class="f-fallback">{{ $p['quantity'] }}</p>
                                                                 </th>
                                                             </tr>
-                                                            <!-- barang -->
+                                                            @endforeach
                                                             <tr>
-                                                                <td width="80%" class="purchase_item"><span
-                                                                        class="f-fallback">Produk</span></td>
-                                                                <td class="align-right" width="20%"
-                                                                    class="purchase_item"><span
-                                                                        class="f-fallback">1</span></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="80%" class="purchase_item"><span
-                                                                        class="f-fallback">Produk</span></td>
-                                                                <td class="align-right" width="20%"
-                                                                    class="purchase_item"><span
-                                                                        class="f-fallback">1</span></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!-- end barang -->
                                                                 <td width="80%" class="purchase_footer" valign="middle">
+                                                                    <p
+                                                                        class="f-fallback purchase_total purchase_total--label">
+                                                                        Total</p>
+                                                                </td>
+                                                                <td width="20%" class="purchase_footer" valign="middle">
+                                                                    <p class="f-fallback purchase_total">
+                                                                        {{ $total_price }}</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="80%" class="purchase_footer" valign="middle"
+                                                                    style="border-top:0">
+                                                                    <p
+                                                                        class="f-fallback purchase_total purchase_total--label">
+                                                                        Diskon</p>
+                                                                </td>
+                                                                <td width="20%" class="purchase_footer" valign="middle"
+                                                                    style="border-top:0">
+                                                                    <p class="f-fallback purchase_total">
+                                                                        - {{ $discount }}</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="80%" class="purchase_footer" valign="middle"
+                                                                    style="border-top:0">
                                                                     <p
                                                                         class="f-fallback purchase_total purchase_total--label">
                                                                         Total yang harus dibayar</p>
                                                                 </td>
-                                                                <td width="20%" class="purchase_footer" valign="middle">
-                                                                    <p class="f-fallback purchase_total">total</p>
+                                                                <td width="20%" class="purchase_footer" valign="middle"
+                                                                    style="border-top:0">
+                                                                    <p class="f-fallback purchase_total">
+                                                                        {{ $total_price - $discount }}</p>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -555,12 +569,13 @@
                                                             role="presentation">
                                                             <tr>
                                                                 <td align="center">
-                                                                    <a href=""
+                                                                    <a href="{{url('api/billing/cancel?billing_number='.$billing_number)}}"
                                                                         class="f-fallback button button-cancel"
-                                                                        target="_blank">Batalkan</a>
-                                                                    <a href=""
+                                                                        style="color:white" target="_blank">Batalkan</a>
+                                                                    <a href="{{url('api/billing/pay?billing_number='.$billing_number)}}"
                                                                         class="f-fallback button button-bayar"
-                                                                        target="_blank">Bayar Sekarang</a>
+                                                                        style="color:white" target="_blank">Bayar
+                                                                        Sekarang</a>
                                                                 </td>
                                                             </tr>
                                                         </table>
