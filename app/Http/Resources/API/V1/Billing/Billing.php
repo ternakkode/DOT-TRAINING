@@ -21,6 +21,8 @@ class Billing extends JsonResource
             'discount'          => $this->discount,
             'status'            => $this->status,
             'due_date'          => $this->due_date,
+
+            // TODO Hilangkan deadcode yaww wkwk
             // 'product'           => BillingProduct::collection($this->product)
         ];
     }

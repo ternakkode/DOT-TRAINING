@@ -13,6 +13,7 @@ class ProductRepository{
         $this->model = $model;
     }
 
+    // TODO Pakai find aja sih jika yang diambil selalu id 1
     public function find($product_id){
         $this->model->find(1);
 

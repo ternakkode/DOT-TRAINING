@@ -11,6 +11,8 @@ class MergeProductBillingService {
 
         foreach($product as $index => $p){
             $merged[] = [
+
+                // TODO product_id ini apakah integer atau array han, krn yang di line 10 integer ?
                 'product_id' => $product_id[$index],
                 'product_name' => $p->product_name,
                 'quantity' => $quantity[$index],
